@@ -4,6 +4,7 @@ public class SpamDetector {
 
     private static final double SIMILARITY_THRESHOLD = 0.6;
 
+
     public static void main(String... args) {
         List<String> emailBodyTexts = getEmailTexts();
 
@@ -22,6 +23,11 @@ public class SpamDetector {
     }
 
 
+    /**
+     * Used to generate the dummy list of mail body texts
+     *
+     * @return the List of email body texts
+     */
     private static List<String> getEmailTexts() {
         List<String> BodyTexts = new ArrayList<>();
         BodyTexts.add("Hello,Hello notice this is a legitimate email.");
@@ -32,6 +38,15 @@ public class SpamDetector {
         return BodyTexts;
     }
 
+    /**
+     * mainly used to accept and process the list of email body texts to find out the spam probability
+     * it iterates over the list of emailbodytexts and select the nearest email body text and pass both the texts to the
+     * dedicated function to find the match
+     *
+     *
+     * @param emailBodyTexts The List of email body texts
+     * @return The map which contains the key as the email body string and List of similarity sum and similar email count
+     */
     private static Map<String,List> scanMails(List<String> emailBodyTexts){
        long bodyTextsLength = emailBodyTexts.size();
        Map<String,List> spamResult = new HashMap<>();
@@ -57,6 +72,15 @@ public class SpamDetector {
     }
 
 
+    /**
+     * It takes the 2 email body texts (nearest) and it initially split the both email string into List<String> based on the word regEx
+     * On each iteration it checks the matching of the word against the other word in the next list
+     * A variable is used to keep the matching count
+     *
+     * @param bodyOne it's an email body
+     * @param bodyTwo it's the nearest email body
+     * @return The similarity
+     */
     private static double calculateSimilarity(String bodyOne,String bodyTwo){
         List<String> bodyOneWords = new ArrayList<>(Arrays.asList(bodyOne.split("\\W+")));
         List<String> bodyTwoWords = new ArrayList<>(Arrays.asList(bodyTwo.split("\\W+")));
